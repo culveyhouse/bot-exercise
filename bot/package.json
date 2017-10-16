@@ -1,0 +1,14 @@
+{
+  "name": "schnitzelbot",
+  "version": "1.0.0",
+  "description": "This is a very simple bot created for the whozoo-exercise project!",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Daniel Culveyhouse",
+  "license": "ISC",
+  "dependencies": {
+    "botbuilder": "^3.11.0"
+  }
+}
