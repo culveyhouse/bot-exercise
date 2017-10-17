@@ -5,6 +5,7 @@ MS Bot Builder Tutorial
 
 var restify = require('restify');
 var builder = require('botbuilder');
+var firebase = require("firebase");
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -18,6 +19,18 @@ var connector = new builder.ChatConnector({
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
 
+// Initialize Firebase
+var config = {
+	apiKey: "AIzaSyDwI6O-ms0X-cKmNQyoZd4YQ7UfUKyP1Dc",
+	authDomain: "whozoo-exercise.firebaseapp.com",
+	databaseURL: "https://whozoo-exercise.firebaseio.com",
+	projectId: "whozoo-exercise",
+	storageBucket: "whozoo-exercise.appspot.com",
+	messagingSenderId: "1040893303436"
+};
+firebase.initializeApp(config);
+
+
 // Listen for messages from users
 server.post('/api/messages', connector.listen());
 
@@ -25,3 +38,5 @@ server.post('/api/messages', connector.listen());
 var bot = new builder.UniversalBot(connector, function (session) {
 	session.send("You said: %s", session.message.text);
 });
+
+
