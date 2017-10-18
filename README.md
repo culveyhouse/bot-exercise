@@ -4,6 +4,8 @@
 
 This small repository contains the Node.js app and supporting files that I wrote for my whozoo-exercise project. The project uses several technologies to emulate a chat bot in a serverless stack. The tools I used for this exercise are listed below. 
 
+This chat bot uses serverless solutions to listen for a user's chat message, then posts the message to a Firebase Realtime Database. A Firebase Cloud Function on the same account then listens for new records and posts simple "echo" responses in the database. Meanwhile, the local bot listens for these Firebase responses and pulls the appropriate response, and finally displays it to the user in the bot emulator. 
+
 ## Built With
 
 * [Node.js](https://nodejs.org/en/docs/) - The primary runtime used
