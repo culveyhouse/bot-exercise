@@ -17,7 +17,7 @@ This chat bot uses serverless solutions to listen for a user's chat message, the
 ## Installation and Execution
 
 ### Clone or download Git repository
-1. Create the folder name bot-exercise before cloning this repo, or simply clone/download this repo and let the repo create it: [bot-exercise](https://github.com/culveyhouse/bot-exercise)
+1. Create a folder named bot-exercise before cloning this repo, or simply clone/download this repo and let the repo create it: [bot-exercise](https://github.com/culveyhouse/bot-exercise)
 2. The only folder that you will need to interact with is the bot folder. 
 
 ### Node.js and Bot Builder SDK
