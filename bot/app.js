@@ -3,7 +3,8 @@
   * It functions as a server with console feedback, but also:
   *
   * 1. Listens for chat messages in the MS Bot Emulator
-  * 2.
+  * 2. Writes a user message to a Firebase /message tree
+  * 3. Listens in /message_response for a response by Firebase to the user message
   */
 
 var restify = require('restify');
@@ -47,10 +48,10 @@ var bot = new builder.UniversalBot(connector, function (session) {
 		session.message.timestamp,
 		session.message.sourceEvent.clientActivityId
 	);
-	// session.send("You said: " + session.message.text); DLC ZZZ REMOVE
+	listenForResponse(session.message.address.id, session);
 });
 
-// Write chat messages to Firebase along with message id, from, timestamp,
+// writeMessage() writes chat messages to Firebase along with message id, from, timestamp,
 // and an additional clientActivityId for additional sorting capability
 function writeMessage(messageId, from, text, time, clientActivityId) {
 	firebase.database().ref('message/' + messageId).set({
@@ -61,3 +62,16 @@ function writeMessage(messageId, from, text, time, clientActivityId) {
 	});
 }
 
+var ref = database.ref("message_response/");
+
+// listenForResponse() adds a listener to the Firebase message_response/ tree (set above),
+// then waits for a child added with the specific key (messageId) created in the first
+// write to /message tree
+function listenForResponse(messageId, session) {
+	ref.orderByKey().equalTo(messageId).on("child_added", function(snapshot) {
+		console.log('Found message response: ' + snapshot.key + ': ' + snapshot.val().messageResponse)
+		session.send(snapshot.val().messageResponse);
+	}, function (errorObject) {
+	  console.log("The read failed: " + errorObject.code);
+	});
+}

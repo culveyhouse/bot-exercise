@@ -24,5 +24,3 @@ exports.replyToChat = functions.database.ref('/message/{pushId}')
 	// Using set since it creates a promise and we need to write a new record
 	return admin.database().ref('/message_response/' + messageId).set(message_response);
 });
-
-
