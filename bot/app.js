@@ -20,7 +20,7 @@ var connector = new builder.ChatConnector({
 });
 
 // Initialize Firebase
-var config = {
+var firebase_config = {
 	apiKey: "AIzaSyDwI6O-ms0X-cKmNQyoZd4YQ7UfUKyP1Dc",
 	authDomain: "whozoo-exercise.firebaseapp.com",
 	databaseURL: "https://whozoo-exercise.firebaseio.com",
@@ -28,15 +28,31 @@ var config = {
 	storageBucket: "whozoo-exercise.appspot.com",
 	messagingSenderId: "1040893303436"
 };
-firebase.initializeApp(config);
+firebase.initializeApp(firebase_config);
 
+var database = firebase.database();
 
 // Listen for messages from users
 server.post('/api/messages', connector.listen());
 
 // Receive messages from the user and respond by echoing each message back (prefixed with 'You said:')
 var bot = new builder.UniversalBot(connector, function (session) {
+	msgObj = session.message; // MS Bot message object in JSON
+	writeMessage(
+		msgObj.address.id,
+		msgObj.user,
+		msgObj.text,
+		msgObj.timestamp,
+		msgObj.sourceEvent.clientActivityId
+	);
 	session.send("You said: %s", session.message.text);
 });
 
-
+function writeMessage(messageId, from, text, time, clientActivityId) {
+  firebase.database().ref('message/' + messageId).set({
+    from: from,
+    messageDetail: text,
+    timestamp : time,
+    clientActivityId : clientActivityId,
+  });
+}
