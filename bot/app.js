@@ -37,13 +37,13 @@ server.post('/api/messages', connector.listen());
 
 // Receive messages from the user and respond by echoing each message back (prefixed with 'You said:')
 var bot = new builder.UniversalBot(connector, function (session) {
-	msgObj = session.message; // MS Bot message object in JSON
+	console.log(session); // DLC ZZZ remove this before committing
 	writeMessage(
-		msgObj.address.id,
-		msgObj.user,
-		msgObj.text,
-		msgObj.timestamp,
-		msgObj.sourceEvent.clientActivityId
+		session.message.address.id,
+		session.message.user,
+		session.message.text,
+		session.message.timestamp,
+		session.message.sourceEvent.clientActivityId
 	);
 	session.send("You said: %s", session.message.text);
 });
