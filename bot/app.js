@@ -1,7 +1,10 @@
 /**
-This app.js is the bot controller that I originally used as part of the
-MS Bot Builder Tutorial
-**/
+  * This app.js is the bot controller for my whozoo-exercise.
+  * It functions as a server with console feedback, but also:
+  *
+  * 1. Listens for chat messages in the MS Bot Emulator
+  * 2.
+  */
 
 var restify = require('restify');
 var builder = require('botbuilder');
@@ -35,9 +38,8 @@ var database = firebase.database();
 // Listen for messages from users
 server.post('/api/messages', connector.listen());
 
-// Receive messages from the user and respond by echoing each message back (prefixed with 'You said:')
+// Receive messages from the user and log useful data into the Bot emulator console
 var bot = new builder.UniversalBot(connector, function (session) {
-	console.log(session); // DLC ZZZ remove this before committing
 	writeMessage(
 		session.message.address.id,
 		session.message.user,
@@ -45,14 +47,17 @@ var bot = new builder.UniversalBot(connector, function (session) {
 		session.message.timestamp,
 		session.message.sourceEvent.clientActivityId
 	);
-	session.send("You said: %s", session.message.text);
+	// session.send("You said: " + session.message.text); DLC ZZZ REMOVE
 });
 
+// Write chat messages to Firebase along with message id, from, timestamp,
+// and an additional clientActivityId for additional sorting capability
 function writeMessage(messageId, from, text, time, clientActivityId) {
-  firebase.database().ref('message/' + messageId).set({
-    from: from,
-    messageDetail: text,
-    timestamp : time,
-    clientActivityId : clientActivityId,
-  });
+	firebase.database().ref('message/' + messageId).set({
+		from: from,
+		messageDetail: text,
+		timestamp : time,
+		clientActivityId : clientActivityId,
+	});
 }
+
