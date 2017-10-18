@@ -63,4 +63,4 @@ This installs all dependencies used in the development of this bot.  Note that t
 ## Acknowledgments
 
 * Much of the code in this project was based on example code available for Google Firebase and MS Bot Builder SDK.
-* Thanks to Rob Layzell for assembling the project specifications, and for putting these various technologies to use. 
+* Thanks to Robert Layzell for assembling the project specifications, and for putting these various technologies to use. 
