@@ -1,7 +1,12 @@
-// This is the controller/exporter for Firebase cloud functions
-// used in my whozoo-exercise. This file was run with the
-// "$ firebase deploy --only functions" command, but it will likely not
-// need to be run again, except for updates or debugging.
+/** This is the controller/exporter for Firebase cloud functions
+  * used in my whozoo-exercise. This file was run with the
+  * "$ firebase deploy --only functions" command, but it will likely not
+  * need to be run again, except for updates or debugging.
+  *
+  * Therefore, there is no need to install npm or node modules in this
+  * directory, and the package.json and package_lock.json for this directory
+  * may be ignored.
+  */
 
 const functions = require('firebase-functions');
 

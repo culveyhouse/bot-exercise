@@ -9,7 +9,7 @@
 
 var restify = require('restify');
 var builder = require('botbuilder');
-var firebase = require("firebase");
+var firebase = require('firebase');
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -35,11 +35,14 @@ var firebase_config = {
 firebase.initializeApp(firebase_config);
 
 var database = firebase.database();
+// Prepare a Firebase reference in the data tree for listening function
+var ref = database.ref('message_response/');
 
 // Listen for messages from users
 server.post('/api/messages', connector.listen());
 
-// Receive messages from the user and log useful data into the Bot emulator console
+// This is the primary function.  1. Listen for messages from the user, 2. Write to Firebase,
+// and 3. Listen for a new message_response entry in firebase.
 var bot = new builder.UniversalBot(connector, function (session) {
 	writeMessage(
 		session.message.address.id,
@@ -62,16 +65,14 @@ function writeMessage(messageId, from, text, time, clientActivityId) {
 	});
 }
 
-var ref = database.ref("message_response/");
-
 // listenForResponse() adds a listener to the Firebase message_response/ tree (set above),
 // then waits for a child added with the specific key (messageId) created in the first
 // write to /message tree
 function listenForResponse(messageId, session) {
 	ref.orderByKey().equalTo(messageId).on("child_added", function(snapshot) {
 		console.log('Found message response: ' + snapshot.key + ': ' + snapshot.val().messageResponse)
-		session.send(snapshot.val().messageResponse);
+		session.send(snapshot.val().messageResponse); // This outputs the Firebase message response to the chat window
 	}, function (errorObject) {
-	  console.log("The read failed: " + errorObject.code);
+	  console.log('The read failed: ' + errorObject.code);
 	});
 }
