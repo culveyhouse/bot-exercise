@@ -14,34 +14,43 @@ This chat bot uses serverless solutions to listen for a user's chat message, the
 * [Firebase Realtime Database](https://firebase.google.com/docs/database/) and [Cloud Functions](https://firebase.google.com/docs/functions/) (hosted by Google) - The serverless NoSQL database used in this example
 * [Firebase SDK for Cloud Functions](https://firebase.google.com/docs/functions/get-started) - The Node.js module which allows development and deployment of Firebase Cloud Functions
 
-## Installation and Execution
+## Express Installation and Bot Initialization
+If you wish to expedite the installation of all necessary npm modules in order to run this bot project, you may simply navigate into the /bot directory and run: 
+```
+npm install
+node app.js
+```
+This installs all dependencies used in the development of this bot.  Note that there is also a /firebase_cf folder in this repo. This is included only for reference, and you will likely not need to interact with it nor install any of its separate Node.js dependencies. 
+
+## Verbose Installation and Bot Initialization
+To install each Node.js package individually to monitor or customize each step, follow these 8 items in order: 
 
 ### Clone or download Git repository
 1. Create a folder named bot-exercise before cloning this repo, or simply clone/download this repo and let the repo create it: [bot-exercise](https://github.com/culveyhouse/bot-exercise)
 2. The only folder that you will need to interact with is the bot folder. 
 
-### Node.js and Bot Builder SDK
-1. Depending upon your OS, you must install Node.js per the instructions for your Windows, MacOS, and Unix/Linux: [Node.js Downloads](https://nodejs.org/en/download/) 
-2. After installing Node.js, use these [MS Bot Builder instructions][MS Bot Builder Quickstart](https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-quickstart#prerequisites) under "Prerequisites" to change your current directory to this project's /bot folder, then initialize the Node package manager (npm) in that /bot folder:  
-3. Now install the Bot Builder SDK per the instructions on that same page. 
-4. You should now be able to execute this command inside the /bot folder, which will start running the bot locally:
-```
-node app.js
-```
-5. Also install Restify, as per the instructions in that same page:
-```
-npm install --save restify
-```
-
 ### Firebase SDK
-1. Next, install Firebase SDK through the Node.js command:
+3. Next, install Firebase SDK through the Node.js command:
 ```
 npm install firebase --save
 npm install -g firebase-tools
 ```
 Note: You will most likely not need firebase-tools, but this is included just in case. 
 
-### MS Bot Framework Channel Emulator
+### Node.js and Bot Builder SDK
+4. Depending upon your OS, you must install Node.js per the instructions for your Windows, MacOS, and Unix/Linux: [Node.js Downloads](https://nodejs.org/en/download/) 
+5. After installing Node.js, use these [MS Bot Builder instructions](https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-quickstart#prerequisites) under "Prerequisites" to change your current directory to this project's /bot folder, then initialize the Node package manager (npm) in that /bot folder:  
+6. Install Restify, as per the instructions in that same page:
+```
+npm install --save restify
+```
+7. Now install the Bot Builder SDK per the instructions on that same page. 
+8. Finally, you should now be able to execute this command inside the /bot folder, which will start running the bot locally:
+```
+node app.js
+```
+
+## MS Bot Framework Channel Emulator
 1. In order to interact with this bot, an emulator must be used, as the bot is hosted locally. Go to this download site to install the Emulator for your particular OS: [Bot Framework Channel Emulator](https://docs.microsoft.com/en-us/bot-framework/debug-bots-emulator)
 2. Once installed, open the emulator and connect it to this local endpoint: http://localhost:3978/api/messages
 3. Once successfully connected, simply type in a message into the chat window. The bot takes your message, posts the message to a Firebase database, then a cloud function detects the new record and stores a simple "echo" type of reply. 
@@ -49,12 +58,16 @@ Note: You will most likely not need firebase-tools, but this is included just in
 
 Note: The bot emulator was only tested on Windows 10. If you are running the bot emulator on MacOS or Linux, the bot emulator must be run locally on the same machine as the running bot project. If you would like to try running the bot emulator remotely from another machine, please contact Daniel Culveyhouse (below) to coordinate further troubleshooting, and we will add that documentation to this README.md file.
 
-### Alternative installation 
-If you wish to expedite the installation of all necessary npm modules in order to run this bot project, you may simply navigate into the /bot directory and run: 
+## Troubleshooting and Known Errors 
+
+1. If while installing the npm modules in Windows 10, you receive the exception:
 ```
-npm install
+"Cannot find module './build/Release/DTraceProviderBindings'"
 ```
-This installs all dependencies used in the development of this bot.  Note that there is also a /firebase_cf folder in this repo. This is included only for reference, and you will likely not need to interact with it nor install any of its separate Node.js dependencies. 
+You can resolve this dependency by running: 
+```
+npm install dtrace-provider --save
+```
 
 ## Authors
 
